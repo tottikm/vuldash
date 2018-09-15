@@ -33,6 +33,9 @@ class Projectsstate extends CI_Controller {
 
   public function getList()
   {
+    if($this->session->userdata('is_logged_in') == FALSE)
+      redirect(base_url().'login');
+      
     $list = $this->Projectstate_model->getList();
 
     $res = [];
@@ -54,12 +57,18 @@ class Projectsstate extends CI_Controller {
 
   public function edit()
   {
+    if($this->session->userdata('is_logged_in') == FALSE)
+      redirect(base_url().'login');
+      
     $this->output->set_content_type('application/json');
     echo json_encode($this->Projectstate_model->get($this->input->get('id', TRUE)));
   }
 
   public function save()
   {
+    if($this->session->userdata('is_logged_in') == FALSE)
+      redirect(base_url().'login');
+      
     $rec = new ProjectState();
     $id = (int)$this->security->xss_clean($this->input->post("id"));
     if($id != 0)
@@ -78,6 +87,9 @@ class Projectsstate extends CI_Controller {
 
   public function delete()
   {
-    $this->Projectstate_model->delete($this->input->get('id', TRUE));
+   if($this->session->userdata('is_logged_in') == FALSE)
+      redirect(base_url().'login');
+      
+      $this->Projectstate_model->delete($this->input->get('id', TRUE));
   }  
 }
